@@ -1,5 +1,4 @@
 export const Api_CONFIG = {
     baseUrl: "http://localhost:8080",
-    bucketBaseUrl:"https://renato-spring-ionic.s3-sa-east-1.amazonaws.com"
-                   
+    bucketBaseUrl:"https://renato-spring-ionic.s3-sa-east-1.amazonaws.com"                   
 }

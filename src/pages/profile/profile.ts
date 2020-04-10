@@ -37,7 +37,7 @@ export class ProfilePage {
     this.clienteService.getImageFromBucket(this.cliente.id)
     .subscribe(response => {
       this.cliente.imageUrl = `${Api_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
-      //this.blobToDataURL(response).then(dataUrl => {
+      //this.blobToDataURL(response).then(dataUrl => //
         //let str : string = dataUrl as string;
        // this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
       
