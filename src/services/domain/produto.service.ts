@@ -12,4 +12,9 @@ export class ProdutoService {
   findByCategoria(categoria_id : string) {
     return this.http.get(`${Api_CONFIG.baseUrl}/produtos/?categorias=${categoria_id}`);
   }
+
+  getSmallImageFromBucket(id : string) : Observable<any> {
+    let url = `${Api_CONFIG.bucketBaseUrl}/prod${id}-small.jpg`
+    return this.http.get(url, {responseType : 'blob'});
+  }  
 }
