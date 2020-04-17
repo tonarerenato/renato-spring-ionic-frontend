@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { ProdutoDTO } from '../../models/produto.dto';
-import { API_CONFIG } from '../../config/api.config';
+import { Api_CONFIG } from '../../config/api.config';
 import { ProdutoService } from '../../services/domain/produto.service';
 import { LoadingController } from 'ionic-angular/components/loading/loading-controller';
 
@@ -49,7 +49,7 @@ export class ProdutosPage {
       let item = this.items[i];
       this.produtoService.getSmallImageFromBucket(item.id)
         .subscribe(response => {
-          item.imageUrl = `${API_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
+          item.imageUrl = `${Api_CONFIG.bucketBaseUrl}/prod${item.id}-small.jpg`;
         },
         error => {});
     }
