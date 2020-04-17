@@ -22,39 +22,38 @@ export class ProfilePage {
     public navParams: NavParams,
     public storage: StorageService,
     public clienteService: ClienteService) {
+      //public camera: Camera
   }
-  //public camera: Camera
+
   ionViewDidLoad() {
+    this.loadData();
+  }
+
+  loadData() {
     let localUser = this.storage.getLocalUser();
-    if (localUser && localUser.email){
-       this.clienteService.findByEmail(localUser.email)
-       .subscribe(response =>{
-         this.cliente = response as ClienteDTO;
-         this.getImageIfExists();
-       },
-       error => {
-        if (error.status == 403) {
-          this.navCtrl.setRoot('HomePage');
-        }
-      });
+    if (localUser && localUser.email) {
+      this.clienteService.findByEmail(localUser.email)
+        .subscribe(response => {
+          this.cliente = response as ClienteDTO;
+          this.getImageIfExists();
+        },
+        error => {
+          if (error.status == 403) {
+            this.navCtrl.setRoot('HomePage');
+          }
+        });
     }
     else {
       this.navCtrl.setRoot('HomePage');
-    }
+    }    
   }
 
   getImageIfExists() {
     this.clienteService.getImageFromBucket(this.cliente.id)
     .subscribe(response => {
       this.cliente.imageUrl = `${Api_CONFIG.bucketBaseUrl}/cp${this.cliente.id}.jpg`;
-      //this.blobToDataURL(response).then(dataUrl => //
-        //let str : string = dataUrl as string;
-       // this.profileImage = this.sanitizer.bypassSecurityTrustUrl(str);
-      
     },
-    error => {
-      //this.profileImage = 'assets/imgs/avatar-blank.png';
-    });
+    error => {});
   }
 
   getCameraPicture() {
@@ -67,7 +66,7 @@ export class ProfilePage {
       encodingType: this.camera.EncodingType.PNG,
       mediaType: this.camera.MediaType.PICTURE
     }
-
+    
     this.camera.getPicture(options).then((imageData) => {
      this.picture = 'data:image/png;base64,' + imageData;
      this.cameraOn = false;
@@ -75,4 +74,17 @@ export class ProfilePage {
     });
   }
 
+  sendPicture() {
+    this.clienteService.uploadPicture(this.picture)
+      .subscribe(response => {
+        this.picture = null;
+        this.loadData();
+      },
+      error => {
+      });
+  }
+
+  cancel() {
+    this.picture = null;
+  }
 }
